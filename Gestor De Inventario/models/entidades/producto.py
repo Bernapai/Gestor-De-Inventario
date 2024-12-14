@@ -38,45 +38,4 @@ class Producto(db.Model):
             'fecha_actualizacion': self.fecha_actualizacion
         }
 
-    def actualizar(self, nombre=None, descripcion=None, precio=None, stock_actual=None, categoria_id=None, proveedor_id=None):
-        if nombre:
-            self.nombre = nombre
-        if descripcion:
-            self.descripcion = descripcion
-        if precio:
-            self.precio = precio
-        if stock_actual:
-            self.stock_actual = stock_actual
-        if categoria_id:
-            self.categoria_id = categoria_id
-        if proveedor_id:
-            self.proveedor_id = proveedor_id
-        db.session.commit()
-
-    def eliminar(self):
-        if isinstance (self,Producto):
-            db.session.delete(self)
-            db.session.commit()
-        else:
-            raise ValueError('El objeto no es de la clase Producto')
-
-    def agregar(self):
-        if isinstance (self,Producto):
-            db.session.add(self)
-            db.session.commit()
-        else:
-            raise ValueError('El objeto no es de la clase Producto')
-
-    @classmethod
-    def obtener_todos(cls):
-        return cls.query.all()
-
-    @classmethod
-    def obtener_por_id(cls, id_producto):
-        return cls.query.get(id_producto)
-
-    @classmethod
-    def obtener_por_nombre(cls, nombre):
-        return cls.query.filter_by(nombre=nombre).first()
-
-    
+   

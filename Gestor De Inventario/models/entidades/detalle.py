@@ -29,33 +29,4 @@ class Detalle(db.Model):
             'precio_unitario': self.precio_unitario
         }
 
-    def actualizar(self, cantidad = None, precio_unitario= None):
-        if cantidad:
-            self.cantidad = cantidad
-        if precio_unitario:
-            self.precio_unitario = precio_unitario
-        db.session.commit()
-
-    def eliminar(self):
-        if isinstance (self, Detalle)
-            db.session.delete(self)
-            db.session.commit()
-        else:
-            raise TypeError('El argumento debe ser de la clase Detalle')
-
-    def agregar(self):
-        if isinstance (self, Detalle)
-            db.session.add(self)
-           db.session.commit()
-        else:
-            raise TypeError('El argumento debe ser de la clase Detalle')
-
-    @classmethod
-    def obtenerTodos(cls):
-        return cls.query.all()
-
-    @classmethod
-    def obtener_por_id(cls, id_detalle):
-        return cls.query.get(id_detalle)
-
-    
+   

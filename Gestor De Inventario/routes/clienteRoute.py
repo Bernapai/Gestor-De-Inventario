@@ -1,55 +1,32 @@
-from flask import Blueprint, jsonify, request
-from models.entidades.cliente import Cliente
+from flask import Blueprint,  request
+from controllers.clienteController import clienteController
 
 
 cliente_bp = Blueprint('cliente_bp',__name__ )
 
+# Ruta para obtener todos los clientes
 @cliente_bp.route('/clientes', methods=['GET'])
 def obtener_clientes():
-    clientes = Cliente.obtener_todos()
-    return jsonify([cliente.serialize() for cliente in clientes])
+    return clienteController.obtener_clientes()
 
+# Ruta para obtener un cliente por id
 @cliente_bp.route('/cliente/<int:id_cliente>', methods=['GET'])
 def obtener_cliente(id_cliente):
-    cliente = Cliente.obtener_por_id(id_cliente)
-    if cliente:
-        return jsonify(cliente.serialize())
-    else:
-        return jsonify({'error': 'Cliente no encontrado'}), 404
+    return clienteController.obtener_cliente(id_cliente)
 
+# Ruta para agregar un nuevo cliente
 @cliente_bp.route('/cliente', methods=['POST'])
 def agregar_cliente():
-    data = request.get_json()
-    nombre = data.get('nombre')
-    email = data.get('email')
-    telefono = data.get('telefono')
-    direccion = data.get('direccion')
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return clienteController.agregar_cliente(data)
 
-    if not nombre or not email or not telefono or not direccion:
-        return jsonify({'error': 'Faltan datos'}), 400
-    else:
-        cliente = Cliente(nombre, apellidos, email, telefono, direccion)
-        cliente.agregar()
-        return jsonify(cliente.serialize())
-
+# Ruta para actualizar un cliente
 @cliente_bp.route('/cliente/<int:id_cliente>', methods=['PUT'])
 def actualizar_cliente(id_cliente):
-    cliente = Cliente.obtener_por_id(id_cliente)
-    if cliente:
-        data = request.get_json()
-        cliente.actualizar(
-            nombre=data.get('nombre', cliente.nombre),
-            email=data.get('email', cliente.email),
-            telefono=data.get('telefono', cliente.telefono),
-            direccion=data.get('direccion', cliente.direccion)
-        )
-        return jsonify(categoria.serialize())
-    return jsonify({'error': 'cliente no encontrado'}), 404
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return clienteController.actualizar_cliente(id_cliente, data)
 
+# Ruta para eliminar un cliente
 @cliente_bp.route('/cliente/<int:id_cliente>', methods=['DELETE'])
 def eliminar_cliente(id_cliente):
-    cliente = Cliente.obtener_por_id(id_cliente)
-    if cliente:
-        cliente.eliminar()
-        return jsonify({'message': 'Cliente eliminado'})
-    return jsonify({'error': 'Cliente no encontrado'}), 404
+    return clienteController.eliminar_cliente(id_cliente)

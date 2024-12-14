@@ -1,78 +1,31 @@
-from flask import Blueprint, jsonify, request
-from models.entidades.movimientos import Movimiento
+from flask import Blueprint,  request
+from controllers.movimientosController import movimientosController
 
 movimientos_bp = Blueprint('movimientos_bp', __name__)
 
-@movimientos_bp.route('/movimientos', methods=['GET'])
+# Ruta para obtener todos los movimientos
+@movimiento_bp.route('/movimientos', methods=['GET'])
 def obtener_movimientos():
-    movimientos = Movimientos.obtener_todos()
-    return jsonify([movimiento.serialize() for movimiento in movimientos])
+    return movimientoController.obtener_movimientos()
 
-@movimientos_bp.route('/movimiento/<int:id_movimiento>', methods=['GET'])
-def obtener_movimiento_por_id(id_movimiento):
-    movimiento = Movimientos.obtener_por_id(id_movimiento)
-    if movimiento:
-        return jsonify(movimiento.serialize())
-    else:
-        return jsonify({'error': 'Movimiento no encontrado'}), 404
+# Ruta para obtener un movimiento por id
+@movimiento_bp.route('/movimiento/<int:id_movimiento>', methods=['GET'])
+def obtener_movimiento(id_movimiento):
+    return movimientoController.obtener_movimiento(id_movimiento)
 
-
-@movimientos_bp.route('/movimiento/<date:fecha>', methods=['GET'])
-def obtener_movimiento_por_fecha(fecha):
-    movimiento = Movimientos.obtener_por_fecha(fecha)
-    if movimiento:
-        return jsonify(movimiento.serialize())
-    else:
-        return jsonify({'error': 'Movimiento no encontrado'}), 404
-
-@movimientos_bp.route('/movimiento/<string:usuario>', methods=['GET'])
-def obtener_movimiento_por_usuario(usuario):
-    movimiento=Movimientos.obtener_movimiento_por_usuario(usuario)
-    if movimiento:
-        return jsonify(movimiento.serialize())
-    else:
-        return jsonify({'error': 'Movimiento no encontrado'}), 404
-
- 
-
-@movimientos_bp.route('/movimiento', methods=['POST'])
+# Ruta para agregar un nuevo movimiento
+@movimiento_bp.route('/movimiento', methods=['POST'])
 def agregar_movimiento():
-    data = request.get_json()
-    fecha = data.get('fecha')
-    tipo_movimiento = data.get('tipo_movimiento')
-    cantidad = data.get('cantidad')
-    usuario = data.get('usuario')
-    
-    if not fecha or not tipo_movimiento or not cantidad or not usuario:
-        return jsonify({'error': 'Faltan datos'}), 400
-    else:
-        movimiento = Movimientos(fecha, tipo_movimiento, cantidad, usuario)
-        movimiento.agregar()
-        return jsonify(movimiento.serialize()), 201
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return movimientoController.agregar_movimiento(data)
 
-
-@movimientos_bp.route('/movimiento/<int:id_movimiento>', methods=['PUT'])
+# Ruta para actualizar un movimiento
+@movimiento_bp.route('/movimiento/<int:id_movimiento>', methods=['PUT'])
 def actualizar_movimiento(id_movimiento):
-    movimiento = Movimientos.obtener_por_id(id_movimiento)
-    if movimiento:
-        data = request.get_json()
-        movimiento.actualizar(
-            fecha=data.get('fecha', movimiento.fecha),
-            tipo_movimiento=data.get('tipo_movimiento', movimiento.tipo_movimiento),
-            cantidad=data.get('cantidad', movimiento.cantidad),
-            usuario=data.get('usuario', movimiento.usuario)
-    else:
-        return jsonify({'error': 'Movimiento no encontrado'}), 404
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return movimientoController.actualizar_movimiento(id_movimiento, data)
 
-
-
-@movimientos_bp.route('/movimiento/<int:id_movimiento>', methods=['DELETE'])
+# Ruta para eliminar un movimiento
+@movimiento_bp.route('/movimiento/<int:id_movimiento>', methods=['DELETE'])
 def eliminar_movimiento(id_movimiento):
-    movimiento = Movimientos.obtener_por_id(id_movimiento)
-    if movimiento:
-        movimiento.eliminar()
-        return jsonify({'message': 'Movimiento eliminado'})
-    else:
-        return jsonify({'error': 'Movimiento no encontrado'}), 404
-
-
+    return movimientoController.eliminar_movimiento(id_movimiento)

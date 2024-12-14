@@ -1,55 +1,31 @@
-from flask import Blueprint, jsonify, request
-from models.entidades.detalle import Detalle
+from flask import Blueprint, request
+from controllers.detalleController import detalleController
 
 detalle_bp = Blueprint('detalle_bp', __name__)
 
-@detalle_bp.route('/detalle', methods=['GET'])
-def obtener_detalle():
-    detalles = Detalle.obtener_todos()
-    return jsonify([detalle.serialize() for detalle in detalles])
+# Ruta para obtener todos los detalles de venta
+@detalle_bp.route('/detalles', methods=['GET'])
+def obtener_detalles():
+    return detalleController.obtener_detalles()
 
+# Ruta para obtener un detalle por id
 @detalle_bp.route('/detalle/<int:id_detalle>', methods=['GET'])
-def obtener_detalle_por_id(id_detalle):
-    detalle = Detalle.obtener_por_id(id_detalle)
-    if detalle:
-        return jsonify(detalle.serialize())
-    else:
-        return jsonify({'error': 'Detalle no encontrado'}), 404
+def obtener_detalle(id_detalle):
+    return detalleController.obtener_detalle(id_detalle)
 
-
-
-
+# Ruta para agregar un nuevo detalle
 @detalle_bp.route('/detalle', methods=['POST'])
 def agregar_detalle():
-    data = request.get_json()
-    cantidad = data.get('cantidad')
-    precio_unitario = data.get('precio_unitario')
-    
-    if not cantidad or not precio_unitario:
-        return jsonify({'error': 'Faltan datos obligatorios'}), 400
-    else:
-        detalle = Detalle( cantidad, precio_unitario)
-        detalle.agregar()
-        return jsonify(detalle.serialize()), 201
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return detalleController.agregar_detalle(data)
 
+# Ruta para actualizar un detalle
 @detalle_bp.route('/detalle/<int:id_detalle>', methods=['PUT'])
 def actualizar_detalle(id_detalle):
-    detalle = Detalle.obtener_por_id(id_detalle)
-    if detalle:
-        data = request.get_json()
-        detalle.actualizar(
-            id_producto=data.get('id_producto', detalle.id_producto),
-            cantidad=data.get('cantidad', detalle.cantidad),
-            precio_unitario=data.get('precio_unitario', detalle.precio_unitario)
-        )
-        return jsonify(detalle.serialize())
-    return jsonify({'error': 'Detalle no encontrado'}), 404
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return detalleController.actualizar_detalle(id_detalle, data)
 
+# Ruta para eliminar un detalle
 @detalle_bp.route('/detalle/<int:id_detalle>', methods=['DELETE'])
 def eliminar_detalle(id_detalle):
-    detalle = Detalle.obtener_por_id(id_detalle)
-    if detalle:
-        detalle.eliminar()
-        return jsonify({'message': 'Detalle eliminado'})
-    return jsonify({'error': 'Detalle no encontrado'}), 404
-
+    return detalleController.eliminar_detalle(id_detalle)

@@ -35,45 +35,4 @@ class Movimiento(db.Model):
         }
 
 
-    def actualizar(self, cantidad=None, tipo_movimiento=None, usuario=None):
-        if cantidad:
-            self.cantidad = cantidad
-        if tipo_movimiento:
-            self.tipo_movimiento = tipo_movimiento
-        if usuario:
-            self.usuario = usuario
-        db.session.commit()
-
-    def eliminar(self):
-        if isinstance (self, Movimiento)
-            db.session.delete(self)
-            db.session.commit()
-        else :
-            raise ValueError('El objeto debe ser de la clase Movimiento')
-
-    def agregar(self):
-        if isinstance (self, Movimiento)
-            db.session.add(self)
-            db.session.commit()
-        else :
-            raise ValueError('El objeto debe ser de la clase Movimiento')
-
-    @classmethod
-    def obtener_todos(cls):
-        return cls.query.all()
-
-    @classmethod
-    def obtener_por_id_producto(cls, id_producto):
-        return cls.query.filter_by(id_producto=id_producto).all()
-
-    @classmethod
-    def obtener_por_fecha(cls, fecha):
-        return cls.query.filter_by(fecha=fecha).all()
-
-    @classmethod
-    def obtener_por_usuario(cls, usuario):
-        return cls.query.filter_by(usuario=usuario).all()
-
-  
-
-    
+   

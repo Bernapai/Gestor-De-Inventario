@@ -1,54 +1,31 @@
-from flask import Blueprint, jsonify, request
-from models.entidades.proovedor import Proovedor
+from flask import Blueprint, request
+from controllers.proovedorController import proovedorController
 
 proovedor_bp = Blueprint('proovedor_bp', __name__)
 
-@proovedor_bp.route('/proveedores', methods=['GET'])
+# Ruta para obtener todos los proveedores
+@proveedor_bp.route('/proveedores', methods=['GET'])
 def obtener_proveedores():
-    proveedores = Proovedor.obtener_todos()
-    return jsonify([proveedor.serialize() for proveedor in proveedores])
+    return ProveedorController.obtener_proveedores()
 
-@proovedor_bp.route('/proveedor/<int:id_proveedor>', methods=['GET'])
+# Ruta para obtener un proveedor por id
+@proveedor_bp.route('/proveedor/<int:id_proveedor>', methods=['GET'])
 def obtener_proveedor(id_proveedor):
-    proveedor = Proovedor.obtener_por_id(id_proveedor)
-    if proveedor:
-        return jsonify(proveedor.serialize())
-    else:
-        return jsonify({'error': 'Proveedor no encontrado'}), 404
+    return ProveedorController.obtener_proveedor(id_proveedor)
 
-@proovedor_bp.route('/proveedor', methods=['POST'])
+# Ruta para agregar un nuevo proveedor
+@proveedor_bp.route('/proveedor', methods=['POST'])
 def agregar_proveedor():
-    data = request.get_json()
-    nombre = data.get('nombre')
-    direccion = data.get('direccion')
-    telefono = data.get('telefono')
-    email = data.get('email')
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return ProveedorController.agregar_proveedor(data)
 
-    if not nombre or not direccion or not telefono or not email:
-        return jsonify({'error': 'Faltan datos'}), 400
-    else:
-        proveedor = Proovedor(nombre, direccion, telefono, email)
-        proveedor.agregar()
-        return jsonify(proveedor.serialize()), 201
-
-@proovedor_bp.route('/proveedor/<int:id_proveedor>', methods=['PUT'])
+# Ruta para actualizar un proveedor
+@proveedor_bp.route('/proveedor/<int:id_proveedor>', methods=['PUT'])
 def actualizar_proveedor(id_proveedor):
-    proveedor = Proovedor.obtener_por_id(id_proveedor)
-    if proveedor:
-        data = request.get_json()
-        proveedor.actualizar(
-            nombre=data.get('nombre', proveedor.nombre),
-            direccion=data.get('direccion', proveedor.direccion),
-            telefono=data.get('telefono', proveedor.telefono),
-            email=data.get('email', proveedor.email)
-        )
-        return jsonify(proveedor.serialize())
-    return jsonify({'error': 'proveedor no encontrado'}), 404
+    data = request.get_json()  # Obtenemos los datos del cuerpo de la solicitud
+    return ProveedorController.actualizar_proveedor(id_proveedor, data)
 
-@proovedor_bp.route('/proveedor/<int:id_proveedor>', methods=['DELETE'])
+# Ruta para eliminar un proveedor
+@proveedor_bp.route('/proveedor/<int:id_proveedor>', methods=['DELETE'])
 def eliminar_proveedor(id_proveedor):
-    proveedor = Proovedor.obtener_por_id(id_proveedor)
-    if proveedor:
-        proveedor.eliminar()
-        return jsonify({'message': 'Proveedor eliminado'})
-    return jsonify({'error': 'proveedor no encontrado'}), 404
+    return ProveedorController.eliminar_proveedor(id_proveedor)

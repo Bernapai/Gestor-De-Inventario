@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-class categoria(db.Model):
+class Categoria(db.Model):
     __tablename__ = 'categoria'
    # Definimos los atributos de la clase (columnas de la tabla)
     id = db.Column(db.Integer, primary_key=True)  # ID de la categoría (clave primaria)

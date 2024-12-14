@@ -29,35 +29,4 @@ class Proovedor(db.Model):
             'direccion': self.direccion
         }
 
-    def actualizar(self, nombre=None, telefono=None, email=None, direccion=None):
-        if nombre:
-            self.nombre = nombre
-        if telefono:
-            self.telefono = telefono
-        if email:
-            self.email = email
-        if direccion:
-            self.direccion = direccion
-
-    def eliminar(self):
-        if isinstance (self, Proovedor ):
-            db.session.delete(self)
-            db.session.commit()
-        else:
-            raise Exception('No se puede eliminar un objeto de una clase diferente a Proveedor')
-
-    def agregar(self):
-        if isinstance (self, Proovedor ):
-            db.session.add(self)
-            db.session.commit()
-        else:
-            raise Exception('No se puede agregar un objeto de una clase diferente a Proveedor')
-
-    @classmethod
-    def obtenerTodos(cls):
-        return cls.query.all()
     
-    @classmethod
-    def obtener_por_id(cls, id_proveedor):
-        return cls.query.get(id_proveedor)
-        
