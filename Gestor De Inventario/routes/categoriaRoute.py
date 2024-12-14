@@ -28,10 +28,10 @@ def agregar_categoria():
 
     if not nombre:
         return jsonify({'error': 'El nombre de la categoría es obligatorio'}), 400
-
-    categoria = Categoria(nombre, descripcion)
-    categoria.agregar()
-    return jsonify(categoria.serialize()), 201
+    else:
+        categoria = Categoria(nombre, descripcion)
+        categoria.agregar()
+        return jsonify(categoria.serialize()), 201
 
 # Ruta para actualizar una categoría
 @categoria_bp.route('/categoria/<int:id_categoria>', methods=['PUT'])

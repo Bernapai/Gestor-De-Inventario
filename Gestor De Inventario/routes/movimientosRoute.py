@@ -32,7 +32,7 @@ def obtener_movimiento_por_usuario(usuario):
         return jsonify(movimiento.serialize())
     else:
         return jsonify({'error': 'Movimiento no encontrado'}), 404
-        
+
  
 
 @movimientos_bp.route('/movimiento', methods=['POST'])
@@ -43,9 +43,12 @@ def agregar_movimiento():
     cantidad = data.get('cantidad')
     usuario = data.get('usuario')
     
-    movimiento = Movimientos(fecha, tipo_movimiento, cantidad, usuario)
-    movimiento.agregar()
-    return jsonify(movimiento.serialize()), 201
+    if not fecha or not tipo_movimiento or not cantidad or not usuario:
+        return jsonify({'error': 'Faltan datos'}), 400
+    else:
+        movimiento = Movimientos(fecha, tipo_movimiento, cantidad, usuario)
+        movimiento.agregar()
+        return jsonify(movimiento.serialize()), 201
 
 
 @movimientos_bp.route('/movimiento/<int:id_movimiento>', methods=['PUT'])

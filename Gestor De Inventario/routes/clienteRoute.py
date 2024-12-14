@@ -27,10 +27,10 @@ def agregar_cliente():
 
     if not nombre or not email or not telefono or not direccion:
         return jsonify({'error': 'Faltan datos'}), 400
-
-    cliente = Cliente(nombre, apellidos, email, telefono, direccion)
-    cliente.agregar()
-    return jsonify(cliente.serialize())
+    else:
+        cliente = Cliente(nombre, apellidos, email, telefono, direccion)
+        cliente.agregar()
+        return jsonify(cliente.serialize())
 
 @cliente_bp.route('/cliente/<int:id_cliente>', methods=['PUT'])
 def actualizar_cliente(id_cliente):

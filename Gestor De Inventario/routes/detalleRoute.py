@@ -25,10 +25,12 @@ def agregar_detalle():
     cantidad = data.get('cantidad')
     precio_unitario = data.get('precio_unitario')
     
-    detalle = Detalle( cantidad, precio_unitario)
-    detalle.agregar()
-
-    return jsonify(detalle.serialize()), 201
+    if not cantidad or not precio_unitario:
+        return jsonify({'error': 'Faltan datos obligatorios'}), 400
+    else:
+        detalle = Detalle( cantidad, precio_unitario)
+        detalle.agregar()
+        return jsonify(detalle.serialize()), 201
 
 @detalle_bp.route('/detalle/<int:id_detalle>', methods=['PUT'])
 def actualizar_detalle(id_detalle):
