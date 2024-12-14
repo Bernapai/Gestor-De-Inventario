@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models.entidades.movimientos import Movimientos
+from models.entidades.movimientos import Movimiento
 
 movimientos_bp = Blueprint('movimientos_bp', __name__)
 
@@ -61,6 +61,9 @@ def actualizar_movimiento(id_movimiento):
             tipo_movimiento=data.get('tipo_movimiento', movimiento.tipo_movimiento),
             cantidad=data.get('cantidad', movimiento.cantidad),
             usuario=data.get('usuario', movimiento.usuario)
+    else:
+        return jsonify({'error': 'Movimiento no encontrado'}), 404
+
 
 
 @movimientos_bp.route('/movimiento/<int:id_movimiento>', methods=['DELETE'])
@@ -71,6 +74,5 @@ def eliminar_movimiento(id_movimiento):
         return jsonify({'message': 'Movimiento eliminado'})
     else:
         return jsonify({'error': 'Movimiento no encontrado'}), 404
-
 
 

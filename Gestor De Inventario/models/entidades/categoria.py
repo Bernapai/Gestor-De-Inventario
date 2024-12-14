@@ -37,13 +37,19 @@ class categoria(db.Model):
 
     # Método para eliminar la categoría
     def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
+        if isinstance(self,categoria):
+            db.session.delete(self)
+            db.session.commit()
+        else:
+            raise TypeError('Debe instanciarse como un objeto de la clase Categoria')
 
     # Método para guardar la categoría en la base de datos
     def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+        if isinstance(self, categoria):
+            db.session.add(self)
+            db.session.commit()
+        else:
+            raise TypeError('Debe instanciarse como un objeto de la clase Categoria')
 
     # Método de clase para obtener todas las categorías
     @classmethod

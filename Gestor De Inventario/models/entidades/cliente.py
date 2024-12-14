@@ -37,12 +37,18 @@ class Cliente(db.Model):
       db.session.commit()
 
     def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
+        if isinstance (self, Cliente):
+            db.session.delete(self)
+            db.session.commit()
+        else:
+            raise TypeError("El método 'eliminar' solo puede ser llamado con objetos de la clase Cliente")
 
     def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+        if isinstance(self,Cliente):
+            db.session.add(self)
+            db.session.commit()
+        else:
+            raise TypeError("El método 'agregar' solo puede ser llamado con objetos de la clase Cliente")
 
     @classmethod
     def obtenerTodos(cls):

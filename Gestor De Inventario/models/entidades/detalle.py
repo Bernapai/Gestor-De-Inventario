@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class detalle(db.Model):
+class Detalle(db.Model):
     __tablename__ = 'detalle_venta'
     id = db.Column(db.Integer, primary_key=True)
     id_venta = db.Column(db.Integer, db.ForeignKey('ventas.id'), nullable=False)
@@ -37,12 +37,18 @@ class detalle(db.Model):
         db.session.commit()
 
     def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
+        if isinstance (self, Detalle)
+            db.session.delete(self)
+            db.session.commit()
+        else:
+            raise TypeError('El argumento debe ser de la clase Detalle')
 
     def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+        if isinstance (self, Detalle)
+            db.session.add(self)
+           db.session.commit()
+        else:
+            raise TypeError('El argumento debe ser de la clase Detalle')
 
     @classmethod
     def obtenerTodos(cls):

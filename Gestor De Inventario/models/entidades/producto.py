@@ -13,7 +13,7 @@ class Producto(db.Model):
     stock_actual = db.Column(db.Integer, nullable=False)
     categoria_id = db.Column(db.Integer, db.ForeignKey('categorias.id'), nullable=True)
     proveedor_id = db.Column(db.Integer, db.ForeignKey('proveedores.id'), nullable=True)
-    fecha_creacion = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), nullable=False)
+    fecha_creacion =  db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     fecha_actualizacion = db.Column(db.TIMESTAMP, server_default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)
 
 
@@ -54,12 +54,18 @@ class Producto(db.Model):
         db.session.commit()
 
     def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
+        if isinstance (self,Producto):
+            db.session.delete(self)
+            db.session.commit()
+        else:
+            raise ValueError('El objeto no es de la clase Producto')
 
     def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+        if isinstance (self,Producto):
+            db.session.add(self)
+            db.session.commit()
+        else:
+            raise ValueError('El objeto no es de la clase Producto')
 
     @classmethod
     def obtener_todos(cls):

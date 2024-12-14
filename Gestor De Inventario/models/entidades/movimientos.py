@@ -7,7 +7,7 @@ class TipoMovimiento(Enum):
     ENTRADA = 'entrada'
     SALIDA = 'salida'
 
-class Movimientos(db.Model):
+class Movimiento(db.Model):
     __tablename__ = 'movimientos'
     id = db.Column(db.Integer, primary_key=True)
     id_producto = db.Column(db.Integer, db.ForeignKey (productos.id))
@@ -45,12 +45,18 @@ class Movimientos(db.Model):
         db.session.commit()
 
     def eliminar(self):
-        db.session.delete(self)
-        db.session.commit()
+        if isinstance (self, Movimiento)
+            db.session.delete(self)
+            db.session.commit()
+        else :
+            raise ValueError('El objeto debe ser de la clase Movimiento')
 
     def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+        if isinstance (self, Movimiento)
+            db.session.add(self)
+            db.session.commit()
+        else :
+            raise ValueError('El objeto debe ser de la clase Movimiento')
 
     @classmethod
     def obtener_todos(cls):
