@@ -16,6 +16,9 @@ def obtener_detalle_por_id(id_detalle):
     else:
         return jsonify({'error': 'Detalle no encontrado'}), 404
 
+
+
+
 @detalle_bp.route('/detalle', methods=['POST'])
 def agregar_detalle():
     data = request.get_json()
