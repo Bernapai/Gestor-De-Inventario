@@ -15,7 +15,7 @@ class proveedorController:
                 return jsonify({'error': 'Datos incompletos'}), 400
 
             # Llamar al servicio para agregar el nuevo proveedor
-            nuevo_proveedor = ProveedorServices.agregar_proveedor(
+            nuevo_proveedor = proveedorServices.agregar_proveedor(
                 data['nombre'],           # Extraemos los datos correctamente
                 data['telefono'],
                 data['email'],
@@ -37,7 +37,7 @@ class proveedorController:
                 return jsonify({'error': 'Datos vacíos'}), 400
 
             # Llamar al servicio para actualizar el proveedor
-            proveedor_actualizado = ProveedorServices.actualizar_proveedor(
+            proveedor_actualizado = proveedorServices.actualizar_proveedor(
                 id_proveedor,
                 data.get('nombre'),
                 data.get('telefono'),
@@ -58,7 +58,7 @@ class proveedorController:
     def eliminar_proveedor(id_proveedor):
         try:
             # Llamar al servicio para eliminar el proveedor
-            proveedor_eliminado = ProveedorServices.eliminar_proveedor(id_proveedor)
+            proveedor_eliminado = proveedorServices.eliminar_proveedor(id_proveedor)
 
             # Si no se encuentra el proveedor, retornamos un error
             if not proveedor_eliminado:
@@ -73,7 +73,7 @@ class proveedorController:
     def obtener_proveedor(id_proveedor):
         try:
             # Llamar al servicio para obtener un proveedor por ID
-            proveedor = ProveedorServices.obtener_proveedor(id_proveedor)
+            proveedor = proveedorServices.obtener_proveedor(id_proveedor)
 
             # Si no se encuentra el proveedor, retornamos un error
             if not proveedor:
@@ -88,7 +88,7 @@ class proveedorController:
     def obtener_todos_proveedores():
         try:
             # Llamar al servicio para obtener todos los proveedores
-            proveedores = ProveedorServices.obtener_todos_proveedores()
+            proveedores = proveedorServices.obtener_todos_proveedores()
 
             return jsonify([proveedor.serialize() for proveedor in proveedores]), 200  # Retornar todos los proveedores
 

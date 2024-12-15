@@ -14,7 +14,7 @@ class productoController:
                 return jsonify({'error': 'Datos incompletos'}), 400
 
             # Llamar al servicio para agregar el nuevo producto
-            nuevo_producto = ProductoServices.agregar_producto(
+            nuevo_producto = productoServices.agregar_producto(
                 data['nombre'],          # Extraemos los datos correctamente
                 data['descripcion'],
                 data['precio'],
@@ -38,7 +38,7 @@ class productoController:
                 return jsonify({'error': 'Datos vacíos'}), 400
 
             # Llamar al servicio para actualizar el producto
-            producto_actualizado = ProductoServices.actualizar_producto(
+            producto_actualizado = productoServices.actualizar_producto(
                 id_producto,
                 data.get('nombre'),
                 data.get('descripcion'),
@@ -61,7 +61,7 @@ class productoController:
     def eliminar_producto(id_producto):
         try:
             # Llamar al servicio para eliminar el producto
-            producto_eliminado = ProductoServices.eliminar_producto(id_producto)
+            producto_eliminado = productoServices.eliminar_producto(id_producto)
 
             # Si no se encuentra el producto, retornamos un error
             if not producto_eliminado:
@@ -76,7 +76,7 @@ class productoController:
     def obtener_producto(id_producto):
         try:
             # Llamar al servicio para obtener un producto por ID
-            producto = ProductoServices.obtener_producto(id_producto)
+            producto = productoServices.obtener_producto(id_producto)
 
             # Si no se encuentra el producto, retornamos un error
             if not producto:
@@ -91,7 +91,7 @@ class productoController:
     def obtener_todos_productos():
         try:
             # Llamar al servicio para obtener todos los productos
-            productos = ProductoServices.obtener_todos_productos()
+            productos = productoServices.obtener_todos_productos()
 
             return jsonify([producto.serialize() for producto in productos]), 200  # Retornar todos los productos
 

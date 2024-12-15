@@ -13,7 +13,7 @@ class UsuarioController:
                 return jsonify({'error': 'Datos incompletos'}), 400
 
             # Llamar al servicio para agregar el nuevo usuario
-            nuevo_usuario = UsuarioServices.agregar_usuario(
+            nuevo_usuario = usuarioServices.agregar_usuario(
                 data['nombre_usuario'],   # Extraemos los datos correctamente
                 data['contraseña'],
                 data['rol']
@@ -34,7 +34,7 @@ class UsuarioController:
                 return jsonify({'error': 'Datos vacíos'}), 400
 
             # Llamar al servicio para actualizar el usuario
-            usuario_actualizado = UsuarioServices.actualizar_usuario(
+            usuario_actualizado = usuarioServices.actualizar_usuario(
                 id_usuario,
                 data.get('nombre_usuario'),
                 data.get('contraseña'),
@@ -54,7 +54,7 @@ class UsuarioController:
     def eliminar_usuario(id_usuario):
         try:
             # Llamar al servicio para eliminar el usuario
-            usuario_eliminado = UsuarioServices.eliminar_usuario(id_usuario)
+            usuario_eliminado = usuarioServices.eliminar_usuario(id_usuario)
 
             # Si no se encuentra el usuario, retornamos un error
             if not usuario_eliminado:
@@ -69,7 +69,7 @@ class UsuarioController:
     def obtener_usuario(id_usuario):
         try:
             # Llamar al servicio para obtener un usuario por ID
-            usuario = UsuarioServices.obtener_usuario(id_usuario)
+            usuario = usuarioServices.obtener_usuario(id_usuario)
 
             # Si no se encuentra el usuario, retornamos un error
             if not usuario:
@@ -84,7 +84,7 @@ class UsuarioController:
     def obtener_todos_usuarios():
         try:
             # Llamar al servicio para obtener todos los usuarios
-            usuarios = UsuarioServices.obtener_todos_usuarios()
+            usuarios = usuarioServices.obtener_todos_usuarios()
 
             return jsonify([usuario.serialize() for usuario in usuarios]), 200  # Retornar todos los usuarios
 

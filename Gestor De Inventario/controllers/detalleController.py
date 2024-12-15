@@ -12,7 +12,7 @@ class detalleController:
                 return jsonify({'error': 'Datos incompletos'}), 400
 
             # Llamar al servicio para agregar el detalle
-            nuevo_detalle = DetalleServices.agregar_detalle(
+            nuevo_detalle = detalleServices.agregar_detalle(
                 data['id_venta'],        # Extraer cada campo de la data
                 data['id_producto'],
                 data['cantidad'],
@@ -30,7 +30,7 @@ class detalleController:
         precio_unitario = data.get('precio_unitario')
 
         # Llamamos al servicio para actualizar el detalle
-        detalle = DetalleServices.actualizar_detalle(id_detalle, cantidad, precio_unitario)
+        detalle = detalleServices.actualizar_detalle(id_detalle, cantidad, precio_unitario)
         
         if detalle is None:
             return jsonify({'mensaje': 'Detalle no encontrado'}), 404
@@ -42,7 +42,7 @@ class detalleController:
     def eliminar_detalle(id_detalle):
         # Llamamos al servicio para eliminar el detalle
         try:
-            DetalleServices.eliminar_detalle(id_detalle)
+            detalleServices.eliminar_detalle(id_detalle)
             return jsonify({'mensaje': 'Detalle eliminado exitosamente'}), 200
         except ValueError:
             return jsonify({'mensaje': 'Detalle no encontrado'}), 404
@@ -50,13 +50,13 @@ class detalleController:
     @staticmethod
     def obtener_todos_detalles():
         # Llamamos al servicio para obtener todos los detalles
-        detalles = DetalleServices.obtener_todos_detalles()
+        detalles = detalleServices.obtener_todos_detalles()
         return jsonify([detalle.serialize() for detalle in detalles]), 200
 
     @staticmethod
     def obtener_detalle_por_id(id_detalle):
         # Llamamos al servicio para obtener un detalle por ID
-        detalle = DetalleServices.obtener_detalle_por_id(id_detalle)
+        detalle = detalleServices.obtener_detalle_por_id(id_detalle)
         if detalle is None:
             return jsonify({'mensaje': 'Detalle no encontrado'}), 404
         return jsonify(detalle.serialize()), 200
@@ -64,11 +64,11 @@ class detalleController:
     @staticmethod
     def obtener_detalles_por_venta(id_venta):
         # Llamamos al servicio para obtener los detalles de una venta por ID de venta
-        detalles = DetalleServices.obtener_detalles_por_venta(id_venta)
+        detalles = detalleServices.obtener_detalles_por_venta(id_venta)
         return jsonify([detalle.serialize() for detalle in detalles]), 200
 
     @staticmethod
     def obtener_detalles_por_producto(id_producto):
         # Llamamos al servicio para obtener los detalles de un producto por ID de producto
-        detalles = DetalleServices.obtener_detalles_por_producto(id_producto)
+        detalles = detalleServices.obtener_detalles_por_producto(id_producto)
         return jsonify([detalle.serialize() for detalle in detalles]), 200

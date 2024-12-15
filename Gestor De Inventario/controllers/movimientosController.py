@@ -11,7 +11,7 @@ class movimientosController:
                 return jsonify({'error': 'Datos incompletos'}), 400
             
             # Llamar al servicio para agregar el movimiento
-            nuevo_movimiento = MovimientoServices.agregar_movimiento(
+            nuevo_movimiento = movimientoServices.agregar_movimiento(
                 data['id_producto'], 
                 data['cantidad'], 
                 data['tipo_movimiento'], 
@@ -25,7 +25,7 @@ class movimientosController:
     def obtener_todos_movimientos():
         try:
             # Llamar al servicio para obtener todos los movimientos
-            movimientos = MovimientoServices.obtener_todos_movimientos()
+            movimientos = movimientoServices.obtener_todos_movimientos()
             # Retornar los movimientos serializados
             return jsonify([movimiento.serialize() for movimiento in movimientos]), 200
         except Exception as e:
@@ -35,7 +35,7 @@ class movimientosController:
     def obtener_movimiento_por_id(id_movimiento):
         try:
             # Llamar al servicio para obtener el movimiento por ID
-            movimiento = MovimientoServices.obtener_movimiento_por_id(id_movimiento)
+            movimiento = movimientoServices.obtener_movimiento_por_id(id_movimiento)
             if movimiento:
                 return jsonify(movimiento.serialize()), 200
             else:
@@ -52,7 +52,7 @@ class movimientosController:
                 return jsonify({'error': 'Datos incompletos'}), 400
             
             # Llamar al servicio para actualizar el movimiento
-            movimiento_actualizado = MovimientoServices.actualizar_movimiento(
+            movimiento_actualizado = movimientoServices.actualizar_movimiento(
                 id_movimiento,
                 data.get('cantidad'),
                 data.get('tipo_movimiento'),
@@ -67,7 +67,7 @@ class movimientosController:
     def eliminar_movimiento(id_movimiento):
         try:
             # Llamar al servicio para eliminar el movimiento
-            MovimientoServices.eliminar_movimiento(id_movimiento)
+            movimientoServices.eliminar_movimiento(id_movimiento)
             return jsonify({'message': 'Movimiento eliminado correctamente'}), 200
         except Exception as e:
             return jsonify({'error': str(e)}), 500
